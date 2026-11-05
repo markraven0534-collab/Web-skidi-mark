@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>GreenWave – Cổng game cộng đồng</title>
+<style>
+:root{--g:#22C55E;--b:#0EA5E9;--bg:#071827;--s:#0c2236;--s2:#10304a;--t:#e8f4fb;--m:#8fb0c4;color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--t);font:16px/1.5 "Segoe UI",Roboto,system-ui,sans-serif;min-height:100vh}
+a{color:inherit;text-decoration:none}button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--g);outline-offset:2px}
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;padding:10px 16px;background:rgba(7,24,39,.92);border-bottom:1px solid #12405e}
+.logo{font-weight:800;font-size:20px;background:linear-gradient(90deg,var(--g),var(--b));-webkit-background-clip:text;background-clip:text;color:transparent}
+.links{display:flex;gap:4px;overflow-x:auto;flex:1 1 100%;order:3}
+.links a{padding:6px 12px;border-radius:99px;white-space:nowrap;color:var(--m)}
+.links a.on,.links a:hover{background:var(--s2);color:var(--t)}
+.search{margin-left:auto;flex:1 1 160px;max-width:300px;background:var(--s);border:1px solid #12405e;border-radius:99px;padding:7px 14px}
+@media(min-width:900px){.links{flex:0 1 auto;order:0}}
+main{max-width:1180px;margin:0 auto;padding:20px 16px 60px}
+.hero{border-radius:20px;padding:40px 24px;background:radial-gradient(600px 240px at 85% 0,rgba(14,165,233,.35),transparent),radial-gradient(500px 240px at 0 100%,rgba(34,197,94,.3),transparent),var(--s);border:1px solid #12405e}
+h1{font-size:clamp(28px,5vw,46px);line-height:1.1;margin:0 0 10px;max-width:15em}
+.hero p{color:var(--m);max-width:34em;margin:0 0 22px}
+.btn{display:inline-block;border:0;border-radius:12px;padding:11px 22px;font-weight:700;cursor:pointer;margin:0 8px 8px 0}
+.bg{background:var(--g);color:#04210f;box-shadow:0 0 22px rgba(34,197,94,.45)}
+.bb{background:var(--b);color:#03212f}
+.bo{background:var(--s2);border:1px solid #1d5a80}
+h2{margin:34px 0 12px;font-size:22px}
+.grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(230px,1fr))}
+.card{position:relative;background:var(--s);border:1px solid #12405e;border-radius:16px;overflow:hidden;cursor:pointer;transition:box-shadow .2s,border-color .2s,transform .2s}
+.card:hover,.card:focus-visible{border-color:var(--g);box-shadow:0 0 0 1px var(--g),0 8px 26px rgba(14,165,233,.28);transform:translateY(-2px)}
+.cov{height:130px;display:grid;place-items:center;font-size:52px}
+.cb{padding:12px 14px}.cb h3{margin:0;font-size:17px}.meta{color:var(--m);font-size:13px}
+.cb p{margin:6px 0;font-size:14px;color:#b9d2e0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.tag{display:inline-block;font-size:12px;padding:1px 8px;border-radius:99px;background:var(--s2);color:var(--b);margin-right:4px}
+.demo{color:#facc15}
+.fav{position:absolute;top:8px;right:8px;border:0;background:rgba(7,24,39,.7);border-radius:50%;width:36px;height:36px;font-size:18px;cursor:pointer}
+.empty{padding:22px;border:1px dashed #1d5a80;border-radius:14px;color:var(--m)}
+.ov{position:fixed;inset:0;z-index:50;display:none;place-items:center;padding:16px;background:rgba(3,10,18,.65);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.ov.show{display:grid}
+.modal{position:relative;width:min(480px,100%);max-height:92vh;overflow:auto;background:var(--s);border:1.5px solid var(--b);border-radius:20px;box-shadow:0 0 36px rgba(14,165,233,.4);animation:pop .22s ease-out}
+@keyframes pop{from{opacity:0;transform:scale(.94)}}
+.modal .cov{height:160px}.mb{padding:18px 20px 20px}.mb h3{margin:0 0 4px;font-size:24px}
+.x{position:absolute;top:10px;right:10px;border:0;background:rgba(7,24,39,.7);width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:18px}
+.mb .btn{display:block;width:100%;text-align:center;font-size:17px;padding:14px;margin:12px 0 0}
+.stage{position:relative;background:#000;border-radius:14px;overflow:hidden;border:1px solid #12405e;height:min(70vh,640px)}
+.stage iframe{width:100%;height:100%;border:0;display:block;background:var(--bg)}
+.load,.err{position:absolute;inset:0;display:grid;place-items:center;text-align:center;background:var(--bg)}
+.err{display:none}
+.spin{width:36px;height:36px;border:4px solid #12405e;border-top-color:var(--g);border-radius:50%;animation:sp 1s linear infinite;margin:0 auto 8px}
+@keyframes sp{to{transform:rotate(360deg)}}
+form.up{display:grid;gap:12px;max-width:560px}
+.up input,.up select,.up textarea{background:var(--s);border:1px solid #1d5a80;border-radius:10px;padding:10px;width:100%}
+.up label{display:grid;gap:4px;color:var(--m);font-size:14px}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--g);color:#04210f;font-weight:700;padding:10px 18px;border-radius:12px;z-index:60;display:none}
+.toast.bad{background:#f87171;color:#2a0505}
+.note{font-size:13px;color:var(--m);margin-top:30px;border-top:1px solid #12405e;padding-top:12px}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style></head><body>
+<nav>
+ <a class="logo" href="#home">▲ GreenWave</a>
+ <div class="links" id="links"></div>
+ <input class="search" id="q" type="search" placeholder="Tìm game, tác giả…" aria-label="Tìm kiếm">
+</nav>
+<main id="app"></main>
+<div class="ov" id="ov"><div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="mt"></div></div>
+<div class="toast" id="toast" role="status"></div>
+<script>
+/* ---------- Game mẫu (chạy thật trong iframe sandbox) ---------- */
+function snake(){var c=document.getElementById('c'),x=c.getContext('2d'),S=20,N=20;c.width=c.height=S*N;var s,d,f,sc,over;function reset(){s=[{x:10,y:10}];d={x:1,y:0};f={x:5,y:5};sc=0;over=false}reset();
+addEventListener('keydown',function(e){var m={ArrowUp:[0,-1],ArrowDown:[0,1],ArrowLeft:[-1,0],ArrowRight:[1,0]}[e.key];if(m&&!(m[0]==-d.x&&m[1]==-d.y)){d={x:m[0],y:m[1]};e.preventDefault()}if(over&&e.key==' ')reset()});
+var tx,ty;addEventListener('touchstart',function(e){tx=e.touches[0].clientX;ty=e.touches[0].clientY});
+addEventListener('touchend',function(e){var dx=e.changedTouches[0].clientX-tx,dy=e.changedTouches[0].clientY-ty;if(over){reset();return}var n=Math.abs(dx)>Math.abs(dy)?{x:Math.sign(dx),y:0}:{x:0,y:Math.sign(dy)};if(!(n.x==-d.x&&n.y==-d.y))d=n});
+setInterval(function(){if(!over){var h={x:s[0].x+d.x,y:s[0].y+d.y};if(h.x<0||h.y<0||h.x>=N||h.y>=N||s.some(function(p){return p.x==h.x&&p.y==h.y}))over=true;else{s.unshift(h);if(h.x==f.x&&h.y==f.y){sc++;f={x:Math.random()*N|0,y:Math.random()*N|0}}else s.pop()}}
+x.fillStyle='#071827';x.fillRect(0,0,c.width,c.height);x.fillStyle='#0EA5E9';x.fillRect(f.x*S+3,f.y*S+3,S-6,S-6);x.fillStyle='#22C55E';s.forEach(function(p){x.fillRect(p.x*S+1,p.y*S+1,S-2,S-2)});x.fillStyle='#fff';x.font='14px sans-serif';x.fillText('Điểm '+sc+(over?' – Thua rồi, chạm hoặc nhấn Space':''),6,16)},110)}
+function orbs(){var c=document.getElementById('c'),x=c.getContext('2d');c.width=400;c.height=400;var o=[],sc=0,t=20,run=true;function add(){o.push({x:Math.random()*360+20,y:Math.random()*360+20,r:18,v:Math.random()*2+1,a:Math.random()*6.28})}for(var i=0;i<5;i++)add();
+c.addEventListener('pointerdown',function(e){if(!run){sc=0;t=20;run=true;return}var b=c.getBoundingClientRect(),X=(e.clientX-b.left)*400/b.width,Y=(e.clientY-b.top)*400/b.height;for(var i=0;i<o.length;i++){if(Math.hypot(o[i].x-X,o[i].y-Y)<o[i].r+6){o.splice(i,1);sc++;add();return}}});
+setInterval(function(){if(run){t-=.05;if(t<=0){t=0;run=false}}},50);
+(function f(){x.fillStyle='#071827';x.fillRect(0,0,400,400);o.forEach(function(p){if(run){p.x+=Math.cos(p.a)*p.v;p.y+=Math.sin(p.a)*p.v;if(p.x<p.r||p.x>400-p.r)p.a=Math.PI-p.a;if(p.y<p.r||p.y>400-p.r)p.a=-p.a}var g=x.createRadialGradient(p.x,p.y,2,p.x,p.y,p.r);g.addColorStop(0,'#22C55E');g.addColorStop(1,'#0EA5E9');x.fillStyle=g;x.beginPath();x.arc(p.x,p.y,p.r,0,7);x.fill()});x.fillStyle='#fff';x.font='16px sans-serif';x.fillText('Điểm '+sc+'   Còn '+t.toFixed(0)+'s'+(run?'':'  – chạm để chơi lại'),8,22);requestAnimationFrame(f)})()}
+function cube(){var c=document.getElementById('c'),x=c.getContext('2d');c.width=c.height=400;var V=[],E=[],ax=.5,ay=.7,dr=false,lx,ly;for(var i=0;i<8;i++)V.push([i&1?1:-1,i&2?1:-1,i&4?1:-1]);for(i=0;i<8;i++)for(var b=1;b<8;b<<=1)if(!(i&b))E.push([i,i|b]);
+c.addEventListener('pointerdown',function(e){dr=true;lx=e.clientX;ly=e.clientY});addEventListener('pointerup',function(){dr=false});
+addEventListener('pointermove',function(e){if(dr){ay+=(e.clientX-lx)*.01;ax+=(e.clientY-ly)*.01;lx=e.clientX;ly=e.clientY}});
+function P(v){var a=v[0]*Math.cos(ay)+v[2]*Math.sin(ay),z=-v[0]*Math.sin(ay)+v[2]*Math.cos(ay),y=v[1]*Math.cos(ax)-z*Math.sin(ax),z2=v[1]*Math.sin(ax)+z*Math.cos(ax),k=300/(4+z2);return[200+a*k,200+y*k]}
+(function f(){if(!dr)ay+=.008;x.fillStyle='#071827';x.fillRect(0,0,400,400);var p=V.map(P);x.lineWidth=2;E.forEach(function(e,i){x.strokeStyle=i%2?'#22C55E':'#0EA5E9';x.beginPath();x.moveTo(p[e[0]][0],p[e[0]][1]);x.lineTo(p[e[1]][0],p[e[1]][1]);x.stroke()});x.fillStyle='#fff';x.font='14px sans-serif';x.fillText('Kéo để xoay mô hình 3D',8,392);requestAnimationFrame(f)})()}
+var WRAP='<!doctype html><meta name=viewport content="width=device-width,initial-scale=1"><style>html,body{margin:0;height:100%;background:#071827}body{display:flex;align-items:center;justify-content:center}canvas{max-width:100%;max-height:100%;touch-action:none}</style><canvas id=c></canvas><scr'+'ipt>';
+function wrap(fn){return WRAP+'('+fn.toString()+')()</scr'+'ipt>'}
+
+var BASE=[
+{id:'neon-snake',title:'Neon Snake',author:'GreenWave Lab',genre:'Arcade',dim:'2D',desc:'Rắn săn mồi cổ điển. Dùng phím mũi tên hoặc vuốt trên điện thoại.',date:'2026-10-20',plays:420,html:wrap(snake),emoji:'🐍',grad:'#22C55E,#0EA5E9',demo:1},
+{id:'orb-rush',title:'Orb Rush',author:'GreenWave Lab',genre:'Phản xạ',dim:'2D',desc:'Chạm những quả cầu đang bay trong 20 giây để ghi điểm cao nhất.',date:'2026-10-29',plays:310,html:wrap(orbs),emoji:'🔵',grad:'#0EA5E9,#22C55E',demo:1},
+{id:'wire-cube',title:'Wire Cube 3D',author:'GreenWave Lab',genre:'Trình xem 3D',dim:'3D',desc:'Mô hình khối lập phương 3D tự xoay, kéo chuột hoặc ngón tay để xoay.',date:'2026-11-03',plays:150,html:wrap(cube),emoji:'🧊',grad:'#0EA5E9,#14532d',demo:1}];
+
+/* ---------- Tiện ích ---------- */
+var $=function(s,r){return(r||document).querySelector(s)};
+function esc(s){return String(s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function ld(k,d){try{var v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}}
+function sv(k,v){try{localStorage.setItem(k,JSON.stringify(v));return true}catch(e){return false}}
+function toast(m,bad){var t=$('#toast');t.textContent=m;t.className='toast'+(bad?' bad':'');t.style.display='block';clearTimeout(toast.h);toast.h=setTimeout(function(){t.style.display='none'},2600)}
+var uploads=ld('gw_up',[]),extra=ld('gw_plays',{}),hist=ld('gw_hist',{}),favs=ld('gw_fav',[]),query='';
+function all(){return BASE.concat(uploads)}
+function plays(g){return g.plays+(extra[g.id]||0)}
+function byId(id){return all().filter(function(g){return g.id===id})[0]}
+
+/* ---------- Card ---------- */
+function card(g){var f=favs.indexOf(g.id)>=0;
+return '<article class="card" tabindex="0" role="button" data-open="'+g.id+'" aria-label="'+esc(g.title)+'"><div class="cov" style="background:linear-gradient(135deg,'+g.grad+')">'+g.emoji+'</div>'
++'<button class="fav" data-fav="'+g.id+'" aria-pressed="'+f+'" aria-label="Yêu thích">'+(f?'💚':'🤍')+'</button>'
++'<div class="cb"><h3>'+esc(g.title)+'</h3><div class="meta">'+esc(g.author)+' · '+g.date+'</div><p>'+esc(g.desc)+'</p>'
++'<span class="tag">'+esc(g.genre)+'</span><span class="tag">'+g.dim+'</span>'+(g.demo?'<span class="tag demo">Demo</span>':'')+'<div class="meta">'+plays(g)+' lượt chơi</div></div></article>'}
+function list(a,emptyMsg){return a.length?'<div class="grid">'+a.map(card).join('')+'</div>':'<div class="empty">'+emptyMsg+'</div>'}
+
+/* ---------- Trang ---------- */
+function home(){
+var nw=all().slice().sort(function(a,b){return b.date<a.date?-1:1}).slice(0,6);
+var pop=all().slice().sort(function(a,b){return plays(b)-plays(a)}).slice(0,6);
+var rec=Object.keys(hist).sort(function(a,b){return hist[b]-hist[a]}).map(byId).filter(Boolean).slice(0,6);
+var gc={};rec.forEach(function(g){gc[g.genre]=(gc[g.genre]||0)+1});
+var played=Object.keys(hist);
+var fy=all().filter(function(g){return played.indexOf(g.id)<0&&(!rec.length||gc[g.genre])});
+if(!fy.length)fy=all().filter(function(g){return played.indexOf(g.id)<0});
+fy=fy.sort(function(a,b){return plays(b)-plays(a)}).slice(0,6);
+return '<section class="hero"><h1>Khám phá thế giới trò chơi không giới hạn</h1><p>Chơi, sáng tạo và chia sẻ trò chơi của bạn cùng cộng đồng.</p><a class="btn bg" href="#explore">Khám phá trò chơi</a><a class="btn bb" href="#upload">Đăng tải game</a></section>'
++'<h2>Mới được đăng tải</h2>'+list(nw,'Chưa có game nào được đăng.')
++'<h2>Phổ biến</h2>'+list(pop,'Chưa có lượt chơi nào.')
++'<h2>Bạn đã chơi gần đây</h2>'+list(rec,'Bạn chưa chơi game nào. Chọn một game để bắt đầu.')
++'<h2>Dành cho bạn</h2>'+list(fy,'Bạn đã chơi hết các game hiện có.')
++'<p class="note">Các game gắn nhãn Demo là dữ liệu mẫu. Lượt chơi, lịch sử và yêu thích lưu trong trình duyệt của bạn.</p>'}
+var filt={dim:'',sort:'new'};
+function explore(){
+var q=query.toLowerCase(),a=all().filter(function(g){return(!q||(g.title+' '+g.author+' '+g.genre).toLowerCase().indexOf(q)>=0)&&(!filt.dim||g.dim===filt.dim)});
+a.sort(function(x,y){return filt.sort==='pop'?plays(y)-plays(x):(y.date<x.date?-1:1)});
+return '<h2 style="margin-top:0">Khám phá game</h2><div class="row" style="margin-bottom:14px"><select id="fd" aria-label="Loại"><option value="">2D và 3D</option><option'+(filt.dim==='2D'?' selected':'')+'>2D</option><option'+(filt.dim==='3D'?' selected':'')+'>3D</option></select> <select id="fs" aria-label="Sắp xếp"><option value="new">Mới nhất</option><option value="pop"'+(filt.sort==='pop'?' selected':'')+'>Phổ biến nhất</option></select></div>'
++list(a,'Không tìm thấy game phù hợp. Thử từ khóa khác.')}
+function upload(){return '<h2 style="margin-top:0">Đăng tải game</h2><form class="up" id="uf"><label>Tên game<input name="t" required maxlength="60"></label><label>Mô tả<textarea name="d" rows="3" maxlength="300" required></textarea></label><div class="row"><label>Thể loại<select name="g"><option>Arcade</option><option>Giải đố</option><option>Hành động</option><option>Phiêu lưu</option></select></label><label>Loại<select name="m"><option>2D</option><option>3D</option></select></label></div><label>File game (.html một tệp, tối đa 400 KB)<input type="file" name="f" accept=".html,text/html" required></label><div class="row"><button type="button" class="btn bb" id="pv">Xem thử</button><button class="btn bg">Xuất bản</button></div></form><div class="stage" id="pvs" style="display:none;margin-top:14px"></div><p class="note">Bản này chạy hoàn toàn trong trình duyệt: game được lưu cục bộ trên máy bạn và chạy trong iframe sandbox. Tải ZIP, tài khoản và lưu trữ máy chủ cần backend riêng.</p>'}
+function readF(cb){var f=$('#uf').f.files[0];if(!f)return toast('Hãy chọn một file .html',1);if(f.size>409600)return toast('File vượt quá 400 KB',1);var r=new FileReader();r.onload=function(){var t=String(r.result);if(!/<(html|body|canvas|script)/i.test(t))return toast('File không giống trang HTML game hợp lệ',1);cb(t)};r.onerror=function(){toast('Không đọc được file',1)};r.readAsText(f)}
+function player(g){return '<div class="row" style="margin-bottom:10px"><a class="btn bo" href="#home">← Trang chủ</a><h2 style="margin:0 8px">'+esc(g.title)+'</h2><button class="btn bb" id="fs2">Toàn màn hình</button></div><div class="stage" id="stg"><div class="load" id="ld"><div><div class="spin"></div>Đang tải game…</div></div><div class="err" id="er"><div>Không tải được game.<br><button class="btn bg" id="rt">Thử lại</button></div></div></div><p class="note">'+esc(g.author)+' · '+esc(g.genre)+' · '+g.dim+'. Game chạy trong iframe sandbox không có quyền same-origin, popup hay điều hướng trang chính. Sandbox giảm rủi ro nhưng không loại bỏ hoàn toàn.</p>'}
+function mount(el,html,onok){var f=document.createElement('iframe');f.setAttribute('sandbox','allow-scripts');f.setAttribute('allow','fullscreen');f.title='Game';f.onload=function(){onok&&onok();try{f.focus()}catch(e){}};f.srcdoc=html;el.appendChild(f)}
+function startPlay(g){var stg=$('#stg');function run(){var o=$('iframe',stg);if(o)o.remove();$('#er').style.display='none';$('#ld').style.display='grid';if(!g.html){$('#ld').style.display='none';$('#er').style.display='grid';return}
+mount(stg,g.html,function(){$('#ld').style.display='none'})}
+run();$('#rt').onclick=run;$('#fs2').onclick=function(){if(stg.requestFullscreen)stg.requestFullscreen().catch(function(){toast('Trình duyệt không cho phép toàn màn hình',1)});else toast('Trình duyệt không hỗ trợ toàn màn hình',1)};
+var now=Date.now();if(!(hist[g.id]&&now-hist[g.id]<30000)){extra[g.id]=(extra[g.id]||0)+1;sv('gw_plays',extra)}hist[g.id]=now;sv('gw_hist',hist)}
+
+/* ---------- Router ---------- */
+function route(){var h=location.hash.slice(1)||'home',app=$('#app'),name=h.split('-')[0];
+$('#links').innerHTML=[['home','Trang chủ'],['explore','Khám phá game'],['upload','Đăng tải game']].map(function(l){return '<a href="#'+l[0]+'" class="'+(name===l[0]?'on':'')+'">'+l[1]+'</a>'}).join('');
+if(name==='play'){var g=byId(h.slice(5));if(!g){app.innerHTML='<div class="empty">Không tìm thấy game này. <a href="#home" style="color:var(--g)">Về trang chủ</a></div>';return}app.innerHTML=player(g);startPlay(g);return}
+app.innerHTML=name==='explore'?explore():name==='upload'?upload():home();
+if(name==='explore'){$('#fd').onchange=function(){filt.dim=this.value;route()};$('#fs').onchange=function(){filt.sort=this.value;route()}}
+if(name==='upload'){var pv=$('#pv');pv.onclick=function(){readF(function(t){var s=$('#pvs');s.style.display='block';s.innerHTML='';mount(s,t)})};
+$('#uf').onsubmit=function(e){e.preventDefault();readF(function(t){var f=e.target,n={id:'u'+Date.now(),title:f.t.value.trim(),author:'Bạn',genre:f.g.value,dim:f.m.value,desc:f.d.value.trim(),date:new Date().toISOString().slice(0,10),plays:0,html:t,emoji:'🎮',grad:'#22C55E,#0EA5E9'};uploads.push(n);if(!sv('gw_up',uploads)){uploads.pop();return toast('Bộ nhớ trình duyệt đã đầy, không lưu được',1)}toast('Đã xuất bản');location.hash='home'})}}
+if(name==='home'||name==='explore')window.scrollTo(0,0)}
+addEventListener('hashchange',route);
+$('#q').addEventListener('input',function(){query=this.value;if(location.hash.slice(1)!=='explore')location.hash='explore';else route()});
+
+/* ---------- Modal ---------- */
+var last=null,cur=null;
+function openM(id,from){var g=byId(id);if(!g)return;cur=g;last=from;
+$('#modal').innerHTML='<button class="x" id="xm" aria-label="Đóng">✕</button><div class="cov" style="background:linear-gradient(135deg,'+g.grad+')">'+g.emoji+'</div><div class="mb"><h3 id="mt">'+esc(g.title)+'</h3><div class="meta">'+esc(g.author)+' · '+esc(g.genre)+' · '+g.dim+'</div><p>'+esc(g.desc)+'</p><button class="btn bg" id="pn">CHƠI NGAY</button><button class="btn bb" id="bk">QUAY LẠI TRANG CHỦ</button></div>';
+$('#ov').classList.add('show');document.body.style.overflow='hidden';$('#pn').focus()}
+function closeM(restore){$('#ov').classList.remove('show');document.body.style.overflow='';if(restore!==false&&last&&document.contains(last))last.focus()}
+document.addEventListener('click',function(e){var t=e.target;
+if(t.closest('[data-fav]')){e.stopPropagation();var id=t.closest('[data-fav]').dataset.fav,i=favs.indexOf(id);i<0?favs.push(id):favs.splice(i,1);sv('gw_fav',favs);route();toast(i<0?'Đã thêm vào yêu thích':'Đã bỏ yêu thích');return}
+var c=t.closest('[data-open]');if(c&&!$('#ov').classList.contains('show'))return openM(c.dataset.open,c);
+if(t.id==='ov'||t.id==='xm')return closeM();
+if(t.id==='pn'){closeM(false);location.hash='play-'+cur.id}
+if(t.id==='bk'){closeM(false);location.hash='home'}});
+document.addEventListener('keydown',function(e){var o=$('#ov').classList.contains('show');
+if(!o){if((e.key==='Enter'||e.key===' ')&&e.target.matches&&e.target.matches('.card')){e.preventDefault();openM(e.target.dataset.open,e.target)}return}
+if(e.key==='Escape')return closeM();
+if(e.key==='Tab'){var f=[].slice.call($('#modal').querySelectorAll('button')),a=f[0],z=f[f.length-1];if(e.shiftKey&&document.activeElement===a){e.preventDefault();z.focus()}else if(!e.shiftKey&&document.activeElement===z){e.preventDefault();a.focus()}}});
+route();
+</script></body></html>
